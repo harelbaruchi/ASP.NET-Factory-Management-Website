@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FactoryDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="department">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Manager" Type="Int32" />
+    <NavigationProperty Name="employee" Relationship="Self.FK__departmen__Manag__3B75D760" FromRole="department" ToRole="employees" />
+    <NavigationProperty Name="employees" Relationship="Self.FK__employees__DepID__3A81B327" FromRole="department" ToRole="employees" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="YearStarted" Type="Int32" Nullable="false" />
+    <Property Name="DepID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="departments" Relationship="Self.FK__departmen__Manag__3B75D760" FromRole="employees" ToRole="department" />
+    <NavigationProperty Name="department" Relationship="Self.FK__employees__DepID__3A81B327" FromRole="employees" ToRole="department" />
+    <NavigationProperty Name="EmployeeShifts" Relationship="Self.FK__EmployeeS__Emplo__403A8C7D" FromRole="employees" ToRole="EmployeeShift" />
+  </EntityType>
+  <EntityType Name="EmployeeShift">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeID" Type="Int32" />
+    <Property Name="ShiftID" Type="Int32" />
+    <NavigationProperty Name="employee" Relationship="Self.FK__EmployeeS__Emplo__403A8C7D" FromRole="EmployeeShift" ToRole="employees" />
+    <NavigationProperty Name="shift" Relationship="Self.FK__EmployeeS__Shift__412EB0B6" FromRole="EmployeeShift" ToRole="shifts" />
+  </EntityType>
+  <EntityType Name="shift">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ShiftDate" Type="DateTime" Precision="0" />
+    <Property Name="StartTime" Type="Int32" />
+    <Property Name="EndTime" Type="Int32" />
+    <NavigationProperty Name="EmployeeShifts" Relationship="Self.FK__EmployeeS__Shift__412EB0B6" FromRole="shifts" ToRole="EmployeeShift" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Pwd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ActionsCounter" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__departmen__Manag__3B75D760">
+    <End Role="employees" Type="Self.employee" Multiplicity="0..1" />
+    <End Role="department" Type="Self.department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="department">
+        <PropertyRef Name="Manager" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__employees__DepID__3A81B327">
+    <End Role="department" Type="Self.department" Multiplicity="1" />
+    <End Role="employees" Type="Self.employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="department">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="employees">
+        <PropertyRef Name="DepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__EmployeeS__Emplo__403A8C7D">
+    <End Role="employees" Type="Self.employee" Multiplicity="0..1" />
+    <End Role="EmployeeShift" Type="Self.EmployeeShift" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employees">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EmployeeShift">
+        <PropertyRef Name="EmployeeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__EmployeeS__Shift__412EB0B6">
+    <End Role="shifts" Type="Self.shift" Multiplicity="0..1" />
+    <End Role="EmployeeShift" Type="Self.EmployeeShift" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="shifts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="EmployeeShift">
+        <PropertyRef Name="ShiftID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FactoryDBEntities3" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="departments" EntityType="Self.department" />
+    <EntitySet Name="employees" EntityType="Self.employee" />
+    <EntitySet Name="EmployeeShifts" EntityType="Self.EmployeeShift" />
+    <EntitySet Name="shifts" EntityType="Self.shift" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK__departmen__Manag__3B75D760" Association="Self.FK__departmen__Manag__3B75D760">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="department" EntitySet="departments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__employees__DepID__3A81B327" Association="Self.FK__employees__DepID__3A81B327">
+      <End Role="department" EntitySet="departments" />
+      <End Role="employees" EntitySet="employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__EmployeeS__Emplo__403A8C7D" Association="Self.FK__EmployeeS__Emplo__403A8C7D">
+      <End Role="employees" EntitySet="employees" />
+      <End Role="EmployeeShift" EntitySet="EmployeeShifts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__EmployeeS__Shift__412EB0B6" Association="Self.FK__EmployeeS__Shift__412EB0B6">
+      <End Role="shifts" EntitySet="shifts" />
+      <End Role="EmployeeShift" EntitySet="EmployeeShifts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
