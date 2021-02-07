@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Departments</title>
+</head>
+<body>
+    <div>
+        <h3>Departments in the Factory</h3>
+        <table border="1">
+            <tr>
+                <th>Department Id</th>
+                <th>Department name</th>
+                <th>Department Manager</th>
+                <th>Changes</th>
+            </tr>
+            @foreach (var item in ViewBag.departments)
+            {
+        <tr>
+            <td>@item.ID</td>
+            <td>@item.DepName</td>
+            @foreach (var e in item.employees)
+            {
+                if (e.ID == item.Manager)
+                {
+                    <td>@e.FirstName </td>
+                }
+
+
+            }
+
+
+            <td>@Html.ActionLink("Edit", "EditDep", new { ID = @item.ID }) </td>
+
+        </tr>
+            }
+
+
+
+        </table>
+
+        <br />
+        @Html.ActionLink("Back to Home Page", "HomePage", "Home")
+        <br />
+        @Html.ActionLink("Log-Out", "LogOut", "Home")
+    </div>
+</body>
+</html>

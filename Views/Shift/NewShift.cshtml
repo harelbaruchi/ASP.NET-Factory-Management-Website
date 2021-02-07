@@ -1,0 +1,28 @@
+﻿@model FactoryWebSite.Models.shift
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>NewShift</title>
+</head>
+<body>
+    <div>
+        <h2> hello @ViewBag.username !</h2><br />
+        <h1>Add new shift to the employee</h1>
+        <form action="/Shift/GetNewShift" method="post">
+            @Html.HiddenFor(x => x.ID)<br />
+            Date:@Html.TextBoxFor(x => x.ShiftDate)<br />
+            Start Time:@Html.EditorFor(x => x.StartTime)<br />
+            End Time:@Html.EditorFor(x => x.EndTime)<br />
+
+
+            <input type="submit" value="Save" />
+        </form>
+    </div>
+</body>
+</html>

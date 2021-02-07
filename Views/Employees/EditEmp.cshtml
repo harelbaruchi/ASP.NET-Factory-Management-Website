@@ -1,0 +1,32 @@
+﻿@model FactoryWebSite.Models.employee
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditEmp</title>
+</head>
+<body>
+    <div>
+        <h2> hello @ViewBag.username !</h2><br />
+        <h1>Edit Employee Data</h1><br/>
+        <form action="/Employees/GetUpdatedEmp" method="post">
+            Employee ID: @Html.HiddenFor(x => x.ID)<br />
+            First Name : @Html.EditorFor(x => x.FirstName)<br />
+            Last Name : @Html.EditorFor(x => x.LastName)<br />
+            Start Work Year : @Html.EditorFor(x => x.YearStarted)<br />
+            department ID : @Html.EditorFor(x => x.DepID) <br />
+            Department: <br />
+            <input type="submit" value="Update" />
+
+
+
+        </form>
+
+    </div>
+</body>
+</html>
