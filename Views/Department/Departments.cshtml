@@ -27,7 +27,7 @@
             <td>@item.DepName</td>
             @foreach (var e in item.employees)
             {
-                if (e.ID == item.Manager)
+                if (@e.ID == item.Manager)
                 {
                     <td>@e.FirstName </td>
                 }
